@@ -36,3 +36,12 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+# Local build and tool caches
+.m2-local/
+.mvn/wrapper/dists/
+
+# Runtime and packaged artifacts
+*.log
+*.dmg
+*.app/

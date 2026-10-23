@@ -34,7 +34,7 @@
             <configuration>
               <transformers>
                 <transformer>
-                  <mainClass>com.example.sellercabinetapp.SellerCabinetApplication</mainClass>
+                  <mainClass>com.example.sellercabinetapp.MainApp</mainClass>
                 </transformer>
               </transformers>
             </configuration>

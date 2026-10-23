@@ -74,19 +74,25 @@ public class ApiClient {
     throws Exception
     {
         String json = mapper.writeValueAsString(body);
-        http.send(getBuilder(path).PUT(HttpRequest.BodyPublishers.ofString(json)).build(), HttpResponse.BodyHandlers.ofString());
+        ensureSuccess(http.send(getBuilder(path).PUT(HttpRequest.BodyPublishers.ofString(json)).build(), HttpResponse.BodyHandlers.ofString()));
     }
 
     public void delete(String path)
     throws Exception
     {
-        http.send(getBuilder(path).DELETE().build(), HttpResponse.BodyHandlers.ofString());
+        ensureSuccess(http.send(getBuilder(path).DELETE().build(), HttpResponse.BodyHandlers.ofString()));
     }
 
     private <T> T send(HttpRequest request, Class<T> responseType) throws Exception{
         HttpResponse<String> response = http.send(request, HttpResponse.BodyHandlers.ofString());
-        if (response.statusCode() >= 400) throw new RuntimeException("HTTP " + response.statusCode() + ": " + response.body());
+        ensureSuccess(response);
         return mapper.readValue(response.body(), responseType);
+    }
+
+    private void ensureSuccess(HttpResponse<String> response) {
+        if (response.statusCode() >= 400) {
+            throw new RuntimeException("HTTP " + response.statusCode() + ": " + response.body());
+        }
     }
 
 }

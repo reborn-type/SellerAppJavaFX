@@ -29,7 +29,7 @@ public class SellerApi {
     }
 
     public void deleteUser(Long userId) throws Exception {
-        api.delete("api/users" + userId);
+        api.delete("api/users/" + userId);
     }
 
 
