@@ -12,44 +12,49 @@ public class SellerApi {
 
     public SellerApi(ApiClient api) {this.api = api;};
 
-    public List<SellerDto> getAllSellers() throws Exception {
-        return api.get("api/sellers", new TypeReference<List<SellerDto>>(){});
+    public TokenPairDto login(String email, String password) throws Exception{
+        var req = new LoginRequestDto(email, password);
+        return api.post("api/auth/login", req, TokenPairDto.class);
     }
 
-    public SellerDto getSeller(Long sellerId) throws Exception {
-        return api.get("api/sellers/" + sellerId, SellerDto.class);
+
+
+
+    public List<UserDto> getAllUsers() throws Exception {
+        return api.get("api/users", new TypeReference<List<UserDto>>(){});
     }
 
-    public SellerDto createSeller(SellerRequest req) throws Exception {
-        return api.post("api/sellers", req, SellerDto.class);
+    public UserDto getUser(Long userId) throws Exception {
+        return api.get("api/users/" + userId, UserDto.class);
     }
 
-    public void updateSeller(Long sellerId, SellerRequest req) throws Exception {
-        api.put("api/sellers/" + sellerId, req);
+    public void deleteUser(Long userId) throws Exception {
+        api.delete("api/users" + userId);
     }
 
-    public void deleteSeller(Long sellerId) throws Exception {
-        api.delete("api/sellers/" + sellerId);
+
+    public List<ProductDto> getAllProducts() throws Exception {
+        return api.get("api/products/", new TypeReference<List<ProductDto>>() {});
     }
 
-    public List<ProductDto> getAllProducts(Long sellerId) throws Exception {
-        return api.get("api/sellers/" + sellerId + "/products", new TypeReference<List<ProductDto>>() {});
+    public List<ProductDto> getProductsBySeller(Long sellerId) throws Exception {
+        return api.get("api/products/by-seller/" + sellerId, new TypeReference<List<ProductDto>>(){});
     }
 
-    public ProductDto getProduct(Long productId, Long sellerId) throws Exception {
-        return api.get("api/sellers/" + sellerId + "/product/" + productId, ProductDto.class);
+    public ProductDto getProduct(Long productId) throws Exception {
+        return api.get("api/products/" + productId, ProductDto.class);
     }
 
-    public ProductDto createProduct(Long sellerId, ProductRequest req) throws Exception {
-        return api.post("api/sellers/" + sellerId + "/products", req, ProductDto.class);
+    public ProductDto createProduct(ProductRequest req) throws Exception {
+        return api.post("api/products", req, ProductDto.class);
     }
 
-    public void updateProduct(Long sellerId, Long productId, ProductRequest req) throws Exception {
-        api.put("api/sellers/" + sellerId + "/product/" + productId, req);
+    public void updateProduct(Long productId, ProductRequest req) throws Exception {
+        api.put("api/products/" + productId, req);
     }
 
-    public void deleteProduct(Long sellerId, Long productId) throws Exception {
-        api.delete("api/sellers/" + sellerId + "/product/" + productId);
+    public void deleteProduct(Long productId) throws Exception {
+        api.delete("api/products/" + productId);
     }
 
 }
