@@ -1,24 +1,22 @@
 package com.example.sellercabinetapp.client;
-import com.example.sellercabinetapp.client.ApiClient;
+
 import com.example.sellercabinetapp.dto.*;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import java.util.List;
 
-
 public class SellerApi {
 
     private final ApiClient api;
 
-    public SellerApi(ApiClient api) {this.api = api;};
+    public SellerApi(ApiClient api) {
+        this.api = api;
+    }
 
-    public TokenPairDto login(String email, String password) throws Exception{
+    public TokenPairDto login(String email, String password) throws Exception {
         var req = new LoginRequestDto(email, password);
         return api.post("api/auth/login", req, TokenPairDto.class);
     }
-
-
-
 
     public List<UserDto> getAllUsers() throws Exception {
         return api.get("api/users", new TypeReference<List<UserDto>>(){});
@@ -32,9 +30,8 @@ public class SellerApi {
         api.delete("api/users/" + userId);
     }
 
-
     public List<ProductDto> getAllProducts() throws Exception {
-        return api.get("api/products/", new TypeReference<List<ProductDto>>() {});
+        return api.get("api/products", new TypeReference<List<ProductDto>>() {});
     }
 
     public List<ProductDto> getProductsBySeller(Long sellerId) throws Exception {
@@ -57,4 +54,15 @@ public class SellerApi {
         api.delete("api/products/" + productId);
     }
 
+    public List<SellerStatsDto> getAllSellerStats() throws Exception {
+        return api.get("api/analytics/sellers", new TypeReference<List<SellerStatsDto>>() {});
+    }
+
+    public SellerStatsDto getSellerStats(Long sellerId) throws Exception {
+        return api.get("api/analytics/sellers/" + sellerId, SellerStatsDto.class);
+    }
+
+    public void register(RegisterRequestDto req) throws Exception {
+        api.post("api/auth/register", req, Object.class);
+    }
 }
